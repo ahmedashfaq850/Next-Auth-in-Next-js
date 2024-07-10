@@ -4,6 +4,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { RegisterProps, registerSchema } from "./types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Input from "@/components/Input";
+import Form from "@/components/Form";
 
 const Register: React.FC<RegisterProps> = () => {
   const {
@@ -55,47 +56,45 @@ const Register: React.FC<RegisterProps> = () => {
       <div className="w-[400px] h-auto bg-gray-500 rounded-lg shadow-lg">
         <h1 className="text-2xl text-center text-white p-4">Register</h1>
         {errors.root && <p className="text-red-500">{errors.root.message}</p>}
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="p-4 flex flex-col gap-2"
+        <Form 
+          errors={errors.root}
+          isSubmitting={isSubmitting}
+          handleSubmit={handleSubmit}
+          onSubmit={onSubmit}
+          buttonText="Register"
+          title="Register"
         >
-          <Input
-            label="Username"
-            registerValue={register("username")}
-            type="text"
-            error={errors.username}
-            placeholder="Username"
-          />
+          <div>
+            <Input
+              label="Username"
+              registerValue={register("username")}
+              type="text"
+              error={errors.username}
+              placeholder="Username"
+            />
 
-          <Input
-            label="Email"
-            registerValue={register("email")}
-            error={errors.email}
-            placeholder="Email"
-          />
+            <Input
+              label="Email"
+              registerValue={register("email")}
+              error={errors.email}
+              placeholder="Email"
+            />
 
-          <Input
-            label="Password"
-            registerValue={register("password")}
-            error={errors.password}
-            placeholder="Password"
-          />
+            <Input
+              label="Password"
+              registerValue={register("password")}
+              error={errors.password}
+              placeholder="Password"
+            />
 
-          <Input
-            label="Confirm Password"
-            registerValue={register("confirmPassword")}
-            error={errors.confirmPassword}
-            placeholder="Confirm Password"
-          />
-
-          <button
-            type="submit"
-            className="w-full p-2 bg-blue-500 text-white rounded-md"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? "Loading..." : "Register"}
-          </button>
-        </form>
+            <Input
+              label="Confirm Password"
+              registerValue={register("confirmPassword")}
+              error={errors.confirmPassword}
+              placeholder="Confirm Password"
+            />
+          </div>
+        </Form>
       </div>
     </div>
   );
