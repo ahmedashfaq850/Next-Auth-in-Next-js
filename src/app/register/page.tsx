@@ -53,49 +53,45 @@ const Register: React.FC<RegisterProps> = () => {
 
   return (
     <div className="max-w-5xl mx-auto px-9 flex justify-center items-center h-[90vh]">
-      <div className="w-[400px] h-auto bg-gray-500 rounded-lg shadow-lg">
-        <h1 className="text-2xl text-center text-white p-4">Register</h1>
-        {errors.root && <p className="text-red-500">{errors.root.message}</p>}
-        <Form 
-          errors={errors.root}
-          isSubmitting={isSubmitting}
-          handleSubmit={handleSubmit}
-          onSubmit={onSubmit}
-          buttonText="Register"
-          title="Register"
-        >
-          <div>
-            <Input
-              label="Username"
-              registerValue={register("username")}
-              type="text"
-              error={errors.username}
-              placeholder="Username"
-            />
+      <Form
+        errors={errors.root}
+        isSubmitting={isSubmitting}
+        handleSubmit={handleSubmit}
+        onSubmit={onSubmit}
+        buttonText="Register"
+        title="Register"
+      >
+        <div>
+          <Input
+            label="Username"
+            registerValue={register("username")}
+            type="text"
+            error={errors.username}
+            placeholder="Username"
+          />
 
-            <Input
-              label="Email"
-              registerValue={register("email")}
-              error={errors.email}
-              placeholder="Email"
-            />
+          <Input
+            label="Email"
+            registerValue={register("email")}
+            error={errors.email}
+            placeholder="Email"
+          />
 
-            <Input
-              label="Password"
-              registerValue={register("password")}
-              error={errors.password}
-              placeholder="Password"
-            />
+          <Input
+            label="Password"
+            registerValue={register("password")}
+            error={errors.password}
+            placeholder="Password"
+          />
 
-            <Input
-              label="Confirm Password"
-              registerValue={register("confirmPassword")}
-              error={errors.confirmPassword}
-              placeholder="Confirm Password"
-            />
-          </div>
-        </Form>
-      </div>
+          <Input
+            label="Confirm Password"
+            registerValue={register("confirmPassword")}
+            error={errors.confirmPassword}
+            placeholder="Confirm Password"
+          />
+        </div>
+      </Form>
     </div>
   );
 };
