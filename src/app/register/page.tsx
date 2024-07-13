@@ -1,12 +1,22 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { RegisterProps, registerSchema } from "./types";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSession } from "next-auth/react";
 import Input from "@/components/Input";
 import Form from "@/components/Form";
+import { useRouter } from "next/navigation";
 
 const Register: React.FC<RegisterProps> = () => {
+  const { data: session, status: sessionStatus } = useSession();
+  const router = useRouter();
+  useEffect(() => {
+    if (sessionStatus === "authenticated") {
+      router.replace("/dashboard");
+    }
+  }, [sessionStatus]);
+
   const {
     register, // register input
     handleSubmit, // handle submit
@@ -51,48 +61,58 @@ const Register: React.FC<RegisterProps> = () => {
     }
   };
 
+  if (sessionStatus === "loading") {
+    return (
+      <div className="max-w-5xl mx-auto px-9 flex justify-center items-center h-[90vh]">
+        <h1>Loading...</h1>
+      </div>
+    );
+  }
+
   return (
-    <div className="max-w-5xl mx-auto px-9 flex justify-center items-center h-[90vh]">
-      <Form
-        errors={errors.root}
-        isSubmitting={isSubmitting}
-        handleSubmit={handleSubmit}
-        onSubmit={onSubmit}
-        buttonText="Register"
-        title="Register"
-      >
-        <div>
-          <Input
-            label="Username"
-            registerValue={register("username")}
-            type="text"
-            error={errors.username}
-            placeholder="Username"
-          />
+    sessionStatus === "unauthenticated" && (
+      <div className="max-w-5xl mx-auto px-9 flex justify-center items-center h-[90vh]">
+        <Form
+          errors={errors.root}
+          isSubmitting={isSubmitting}
+          handleSubmit={handleSubmit}
+          onSubmit={onSubmit}
+          buttonText="Register"
+          title="Register"
+        >
+          <div>
+            <Input
+              label="Username"
+              registerValue={register("username")}
+              type="text"
+              error={errors.username}
+              placeholder="Username"
+            />
 
-          <Input
-            label="Email"
-            registerValue={register("email")}
-            error={errors.email}
-            placeholder="Email"
-          />
+            <Input
+              label="Email"
+              registerValue={register("email")}
+              error={errors.email}
+              placeholder="Email"
+            />
 
-          <Input
-            label="Password"
-            registerValue={register("password")}
-            error={errors.password}
-            placeholder="Password"
-          />
+            <Input
+              label="Password"
+              registerValue={register("password")}
+              error={errors.password}
+              placeholder="Password"
+            />
 
-          <Input
-            label="Confirm Password"
-            registerValue={register("confirmPassword")}
-            error={errors.confirmPassword}
-            placeholder="Confirm Password"
-          />
-        </div>
-      </Form>
-    </div>
+            <Input
+              label="Confirm Password"
+              registerValue={register("confirmPassword")}
+              error={errors.confirmPassword}
+              placeholder="Confirm Password"
+            />
+          </div>
+        </Form>
+      </div>
+    )
   );
 };
 

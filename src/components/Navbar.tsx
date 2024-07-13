@@ -1,7 +1,10 @@
+"use client";
 import Link from "next/link";
 import React from "react";
+import { signOut, useSession } from "next-auth/react";
 
 const Navbar = () => {
+  const { data: session } = useSession();
   return (
     <div>
       <ul
@@ -27,15 +30,26 @@ const Navbar = () => {
           </Link>
         </div>
         <div className="flex justify-center items-center gap-10">
-          <Link href="/dashboard">
-            <li>Dashboard</li>
-          </Link>
-          <Link href="/login">
-            <li>Login</li>
-          </Link>
-          <Link href="/register">
-            <li>Register</li>
-          </Link>
+          {session?.user && (
+            <Link href="/dashboard">
+              <li>Dashboard</li>
+            </Link>
+          )}
+          {!session ? (
+            <>
+              <Link href="/login">
+                <li>Login</li>
+              </Link>
+              <Link href="/register">
+                <li>Register</li>
+              </Link>
+            </>
+          ) : (
+            <>
+              <p>{session.user?.email}</p>
+              <button onClick={() => signOut()}>Sign Out</button>
+            </>
+          )}
         </div>
       </ul>
     </div>
