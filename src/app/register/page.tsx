@@ -35,27 +35,22 @@ const Register: React.FC<RegisterProps> = () => {
     password,
     confirmPassword,
   }) => {
-    console.log(username, email, password, confirmPassword);
-    console.log(getValues()); // get all input values at once after submit the form
 
     try {
-      // api call to post data
-      /* await fetch("http://localhost:3000/api/register", {
+      const response = await fetch("/api/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ username, email, password, confirmPassword }),
-      })
-        .then((res) => res.json())
-        .then(() => console.log("Data posted successfully"))
-        .then(() => {
-          // This is how we can set the input bull after submit the form
-          setValue("username", "");
-          setValue("email", "");
-          setValue("password", "");
-          setValue("confirmPassword", "");
-        }); */
+        body: JSON.stringify({ username, email, password }),
+      });
+
+      if (response.ok) {
+        router.push("/login");
+      } else {
+        const data = await response.json();
+        setError("root", { message: data.message });
+      }
     } catch (error) {
       setError("root", { message: "Something went wrong" });
     }

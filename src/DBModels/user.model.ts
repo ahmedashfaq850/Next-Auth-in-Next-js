@@ -2,14 +2,14 @@ import mongoose from "mongoose";
 
 interface IUser {
   _id: string;
-  userName: string;
+  username: string;
   email: string;
   password: string;
 }
 
 const UserSchema = new mongoose.Schema<IUser>(
   {
-    userName: {
+    username: {
       type: String,
       required: true,
     },
